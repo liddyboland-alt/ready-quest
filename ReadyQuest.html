@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReadyQuest — Learn Today, Be Ready Tomorrow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1a3a5c;
+      --navy-deep: #0f2540;
+      --teal: #2a7d6e;
+      --teal-light: #3baa96;
+      --sky: #e8f4f8;
+      --text: #1e293b;
+      --soft: #64748b;
+      --gold: #c9a227;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito Sans', sans-serif; background: var(--sky); color: var(--text); min-height: 100vh; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(160deg, var(--navy-deep) 0%, #1e4d7a 60%, #1a5c52 100%);
+      color: white;
+      padding: 48px 24px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 80%, rgba(59,170,150,0.18) 0%, transparent 50%),
+        radial-gradient(circle at 85% 20%, rgba(201,162,39,0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 110%, rgba(255,255,255,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+
+    /* Logo */
+    .logo-img { width: 200px; height: auto; filter: drop-shadow(0 10px 28px rgba(0,0,0,0.45)); margin-bottom: 20px; }
+    .logo-fallback {
+      display: none;
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(38px, 8vw, 58px);
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+    .logo-fallback .ready { color: #ffffff; }
+    .logo-fallback .quest { color: var(--teal-light); }
+
+    .tagline {
+      font-family: 'Poppins', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 18px;
+    }
+    .hero-desc {
+      font-size: 15px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.7;
+      font-weight: 600;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Wave */
+    .wave-wrap { background: var(--sky); margin-top: -2px; line-height: 0; }
+    .wave-wrap svg { display: block; width: 100%; }
+
+    /* ===== CARDS SECTION ===== */
+    .section { max-width: 960px; margin: 0 auto; padding: 36px 20px 72px; }
+    .section-header { text-align: center; margin-bottom: 30px; }
+    .section-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .section-sub { font-size: 14px; color: var(--soft); font-weight: 600; line-height: 1.6; }
+
+    .disaster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    /* Card base */
+    .disaster-card {
+      background: white;
+      border-radius: 22px;
+      padding: 28px 16px 22px;
+      text-align: center;
+      border: 3px solid #e2e8f0;
+      position: relative;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform .18s, box-shadow .18s, border-color .18s;
+    }
+
+    /* Active (available) card */
+    .disaster-card.available {
+      border-color: var(--teal);
+      background: linear-gradient(145deg, #f0fdf9 0%, #e4f7f3 100%);
+      cursor: pointer;
+    }
+    .disaster-card.available:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 18px 40px rgba(42,125,110,0.25);
+      border-color: var(--teal-light);
+    }
+
+    /* Coming soon card */
+    .disaster-card.coming-soon {
+      opacity: 0.72;
+      cursor: default;
+      filter: grayscale(0.25);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 8px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 10px;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .badge-available { background: var(--teal); color: white; }
+    .badge-soon { background: #f1f5f9; color: var(--soft); }
+
+    .card-icon { font-size: 54px; margin-bottom: 12px; line-height: 1; display: block; }
+    .card-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 7px;
+    }
+    .available .card-title { color: var(--teal); }
+    .card-desc { font-size: 12px; color: var(--soft); font-weight: 600; line-height: 1.55; }
+
+    /* Explore button on active card */
+    .card-cta {
+      display: inline-block;
+      margin-top: 14px;
+      background: var(--teal);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 7px 18px;
+      border-radius: 20px;
+      box-shadow: 0 4px 0 var(--teal);
+      transition: transform .15s;
+    }
+    .disaster-card.available:hover .card-cta {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #1a5c50;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--navy-deep);
+      color: rgba(255,255,255,0.55);
+      text-align: center;
+      padding: 22px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.8;
+    }
+    .footer a { color: var(--teal-light); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .footer-logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+    .footer-logo .ready { color: white; }
+    .footer-logo .quest { color: var(--teal-light); }
+
+    @media (max-width: 520px) {
+      .disaster-grid { grid-template-columns: repeat(2, 1fr); }
+      .logo-img { width: 150px; }
+    }
+    @media (max-width: 340px) {
+      .disaster-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <div class="hero-content">
+      <img src="readyquest-logo.png" alt="ReadyQuest" class="logo-img">
+      <div class="logo-fallback" style="display:block;">
+        <span class="ready">Ready</span><span class="quest">Quest</span>
+      </div>
+      <div class="tagline">Learn Today, Be Ready Tomorrow</div>
+      <p class="hero-desc">Pick an emergency to explore. Each adventure is packed with activities, tips, and challenges for kids and families — so you're ready for anything!</p>
+    </div>
+  </div>
+
+  <!-- Wave divider -->
+  <div class="wave-wrap">
+    <svg viewBox="0 0 1440 54" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:40px;">
+      <path d="M0,32 C240,58 480,6 720,30 C960,54 1200,10 1440,28 L1440,0 L0,0 Z" fill="#1a3a5c"/>
+    </svg>
+  </div>
+
+  <!-- ===== DISASTER CARDS ===== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">Choose Your Emergency</div>
+      <div class="section-sub">Start with Extreme Heat — more adventures coming soon!</div>
+    </div>
+
+    <div class="disaster-grid">
+
+      <!-- AVAILABLE -->
+      <a href="HeatReady Draft 5.4.html" class="disaster-card available">
+        <span class="card-badge badge-available">✓ Available Now</span>
+        <span class="card-icon">☀️</span>
+        <div class="card-title">Extreme Heat</div>
+        <div class="card-desc">Stay cool, spot warning signs, build your heat safety kit, and earn badges!</div>
+        <span class="card-cta">Start Adventure →</span>
+      </a>
+
+      <!-- COMING SOON -->
+      <div class="disaster-card coming-soon">
+        <span class="card-badge badge-soon">Coming Soon</span>
+        <span class="card-icon">🌀</span>
+        <div class="card-title">Hurricane</div>
+        <div class="card-desc">Prepare for powerful storms, flooding, and high winds before they hit.</div>
+      </div>
+
+      <div class="disaster-card coming-soon">
+        <span class="card-badge badge-soon">Coming Soon</span>
+        <span class="card-icon">🌪️</span>
+        <div class="card-title">Tornado</div>
+        <div class="card-desc">Know where to shelter and what to do when a tornado warning sounds.</div>
+      </div>
+
+      <div class="disaster-card coming-soon">
+        <span class="card-badge badge-soon">Coming Soon</span>
+        <span class="card-icon">🌊</span>
+        <div class="card-title">Flood</div>
+        <div class="card-desc">Learn why floods move fast and how to keep your family above water.</div>
+      </div>
+
+      <div class="disaster-card coming-soon">
+        <span class="card-badge badge-soon">Coming Soon</span>
+        <span class="card-icon">🔥</span>
+        <div class="card-title">Wildfire</div>
+        <div class="card-desc">Evacuation routes, air quality, and how to protect what matters most.</div>
+      </div>
+
+      <div class="disaster-card coming-soon">
+        <span class="card-badge badge-soon">Coming Soon</span>
+        <span class="card-icon">🏚️</span>
+        <div class="card-title">Earthquake</div>
+        <div class="card-desc">Drop, cover, and hold on — plus everything to do before the shaking starts.</div>
+      </div>
+
+      <div class="disaster-card coming-soon">
+        <span class="card-badge badge-soon">Coming Soon</span>
+        <span class="card-icon">⛈️</span>
+        <div class="card-title">Severe Storm</div>
+        <div class="card-desc">Thunder, lightning, and heavy rain — know when to head inside and stay safe.</div>
+      </div>
+
+      <div class="disaster-card coming-soon">
+        <span class="card-badge badge-soon">Coming Soon</span>
+        <span class="card-icon">🧊</span>
+        <div class="card-title">Winter Storm</div>
+        <div class="card-desc">Blizzards, ice storms, and power outages — how to stay warm and prepared.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer">
+    <div class="footer-logo"><span class="ready">Ready</span><span class="quest">Quest</span></div>
+    Official resources from <a href="https://www.ready.gov" target="_blank">FEMA Ready.gov</a> &amp; the National Weather Service &nbsp;·&nbsp; Built for kids and families
+  </div>
+
+</body>
+</html>
